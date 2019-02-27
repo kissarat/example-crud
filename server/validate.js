@@ -25,10 +25,10 @@ function inArray(values, name, defaultValue, array) {
 }
 
 const validate = {
-  pagination(values) {
+  find(values) {
     values.skip = values.skip ? +values.skip : config.pagination.skip;
     values.limit = values.limit ? +values.limit : config.pagination.limit;
-    values.total = +values.total > 9;
+    values.total = +values.total > 0;
     let error;
 
     if (error = inArray(values, "sort", "empID", ["empID", "empName", "empActive"])) {

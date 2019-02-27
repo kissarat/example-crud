@@ -6,21 +6,27 @@ const { check, caught } = require("../responses");
 const query = require("../query");
 
 const queries = {
-  select: ({sort, order}) => `select * from tblEmployees join tblDepartments on emp_dpID = dpID order by ${sort} ${order}`
+  select: (fields = "*") => `select ${fields} from tblEmployees join tblDepartments on emp_dpID = dpID`,
+  sort: ({sort, order}) => queries.select() + ` order by ${sort} ${order} limit ?, ?`
 }
 
 module.exports = function () {
   const router = new express.Router();
 
   router.get("/", caught(async function (req, res) {
-    const page = _.pick(req, "skip", "limit", "count")
-    if (check(res, validate.pagination(page))) {
-      const items = await query(queries.select(page))
-      return {
+    const page = _.pick(req.query, "skip", "limit", "total", "sort", "order");
+    if (check(res, validate.find(page))) {
+      const items = await query(queries.sort(page), [page.skip, page.limit]);
+      const r = {
         ok: true,
         page,
         items
       };
+      if (page.total) {
+        const [{total}] = await query(queries.select("count(*) as total"));
+        r.total = total;
+      }
+      return r;
     }
   }));
 
