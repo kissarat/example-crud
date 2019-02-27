@@ -1,6 +1,6 @@
 const _ = require("lodash");
 const bodyParser = require("body-parser");
-const development = require("./development");
+const morozov = require("./morozov");
 const express = require("express");
 const passport = require("passport");
 const passportRouter = require("./passport");
@@ -24,7 +24,7 @@ function main({ port = 8080 }) {
     res.json(p);
   });
   if ("production" !== process.env.NODE_ENV) {
-    api.use(development());
+    api.use(morozov());
   }
 
   app.use("/api", api);

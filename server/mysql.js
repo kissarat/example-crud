@@ -2,13 +2,16 @@ var mysql = require("mysql");
 const config = require("../config");
 
 const NAME = "company";
-const mysqlConfig = Object.assign({
+if (!config.mysql) {
+    config.mysql = {};
+}
+Object.assign(config.mysql, {
     host: "localhost",
     user: NAME,
     password: NAME,
     database: NAME
-}, config.mysql || {})
-var connection = mysql.createConnection(mysqlConfig);
+})
+var connection = mysql.createConnection(config.mysql);
 connection.connect();
 
 module.exports = connection;
