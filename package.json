@@ -1,5 +1,5 @@
 {
-  "name": "passport-crud",
+  "name": "example-crud",
   "private": true,
   "version": "0.0.1",
   "description": "",
@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Taras Labiak <taras.labiak@indeema.com>",
+  "author": "Taras Labiak <kissarat@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "auxiliary": "0.0.14",
