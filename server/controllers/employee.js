@@ -1,13 +1,25 @@
-const Repository = require("../repository");
 const express = require("express");
 const validate = require("../validate");
 const _ = require("lodash");
-const { check, caught } = require("../responses");
+const { check, caught, modified } = require("../responses");
 const query = require("../query");
 
 const queries = {
   select: (fields = "*") => `select ${fields} from tblEmployees join tblDepartments on emp_dpID = dpID`,
-  sort: ({sort, order}) => queries.select() + ` order by ${sort} ${order} limit ?, ?`
+  sort: ({sort, order}) => queries.select() + ` order by ${sort} ${order} limit ?, ?`,
+  insert: `insert into tblEmployees(empName, empActive, emp_dpID) values (?, ?, ?)`
+}
+
+const sortedKeys = {
+  tblEmployees: ["empName", "empActive", "emp_dpID"]
+}
+
+function object2array(object, keys) {
+  const array = [];
+  for(const key of keys) {
+    array.push(object[key]);
+  }
+  return array;
 }
 
 module.exports = function () {
@@ -27,6 +39,14 @@ module.exports = function () {
         r.total = total;
       }
       return r;
+    }
+  }));
+
+  router.post("/", caught(async function (req, res) {
+    const data = req.body;
+    if (check(res, validate.create(data))) {
+      const r = await query(queries.insert, object2array(data, sortedKeys.tblEmployees));
+      return modified(r);
     }
   }));
 

@@ -1,5 +1,7 @@
 const _ = require("lodash");
 
+const isProduction = "production" === process.env.NODE_ENV;
+
 const explainedFields = ["message", "code", "status", "statusCode"];
 if ("production" !== process.env.NODE_ENV) {
   explainedFields.push("stack");
@@ -41,6 +43,17 @@ module.exports = {
             error: explain(error)
           })
       }
+    }
+  },
+
+  modified(r) {
+    const ok = r.affectedRows > 0;
+    if (isProduction) {
+      return {ok}
+    }
+    else {
+      r.ok = ok;
+      return r;
     }
   }
 }
