@@ -7,7 +7,8 @@ const query = require("../query");
 const queries = {
   select: (fields = "*") => `select ${fields} from tblEmployees join tblDepartments on emp_dpID = dpID`,
   sort: ({sort, order}) => queries.select() + ` order by ${sort} ${order} limit ?, ?`,
-  insert: `insert into tblEmployees(empName, empActive, emp_dpID) values (?, ?, ?)`
+  insert: `insert into tblEmployees(empName, empActive, emp_dpID) values (?, ?, ?)`,
+  update: `update tblEmployees set empName = ?, empActive = ?, emp_dpID = ? where empID = ?`,
 }
 
 const sortedKeys = {
@@ -46,6 +47,18 @@ module.exports = function () {
     const data = req.body;
     if (check(res, validate.create(data))) {
       const r = await query(queries.insert, object2array(data, sortedKeys.tblEmployees));
+      return modified(r);
+    }
+  }));
+
+  router.put("/:id", caught(async function (req, res) {
+    const data = req.body;
+    const id = +req.params.id;
+    if (!(id > 0)) {
+      return validate.invalid("id");
+    }
+    if (check(res, validate.create(data))) {
+      const r = await query(queries.update, [...object2array(data, sortedKeys.tblEmployees), id]);
       return modified(r);
     }
   }));

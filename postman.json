@@ -46,6 +46,84 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "find-employees",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{origin}}/employee",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create-employees",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"empName\": \"Taras\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
+				},
+				"url": {
+					"raw": "{{origin}}/employee",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"employee"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "update-employees",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"empName\": \"Taras\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
+				},
+				"url": {
+					"raw": "{{origin}}/employee/0",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"employee",
+						"0"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [
@@ -72,7 +150,7 @@
 	],
 	"variable": [
 		{
-			"id": "1d85e242-c14d-44a8-924e-6dec13dbf288",
+			"id": "ad7f1c17-1ac9-4b73-80bd-b0f6ba5bd885",
 			"key": "origin",
 			"value": "http://localhost:8080/api",
 			"type": "string"
