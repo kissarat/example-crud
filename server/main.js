@@ -8,6 +8,8 @@ const session = require("./session");
 const config = require("../config");
 const controllers = require('./controllers');
 
+const STATIC_DIR = __dirname + "/../client/public";
+
 function main(options = {}) {
   Object.assign(config, options);
   config.port = +config.port
@@ -18,7 +20,7 @@ function main(options = {}) {
     try {
       const app = express();
 
-      app.use(express.static(__dirname + "/../public"));
+      app.use(express.static(STATIC_DIR));
       app.use(bodyParser.json());
       app.use(passport.initialize());
       app.use(session);
@@ -46,7 +48,7 @@ function main(options = {}) {
         });
       });
 
-      const server = app.listen(config.port, function() {
+      const server = app.listen(config.port, function () {
         resolve(server);
       });
     }

@@ -102,3 +102,11 @@ node_modules
 
 testApp
 coverage
+.node_history
+
+
+############################
+# Client
+############################
+
+client/public/main.js

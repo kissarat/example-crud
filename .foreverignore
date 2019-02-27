@@ -1,5 +1,6 @@
 .vscode
 bin
+client
 node_modules
 public
 test
