@@ -7,16 +7,16 @@ const _ = require("lodash");
 const QUERY_TABLES = "select * from INFORMATION_SCHEMA.TABLES";
 
 function morozov({ trace = false }) {
-    const api = new express.Router();
+    const router = new express.Router();
 
     if (trace) {
-        api.use(function (req, res, next) {
+        router.use(function (req, res, next) {
             console.log(req.method, req.url, _.isEmpty(req.body) ? '' : JSON.stringify(req.body));
             next();
         });
     }
 
-    api.get("/about", function (req, res) {
+    router.get("/about", function (req, res) {
         res.json({
             ok: true,
             isAuthenticated: req.isAuthenticated(),
@@ -25,7 +25,7 @@ function morozov({ trace = false }) {
         });
     });
 
-    api.get("/tables", function (req, res) {
+    router.get("/tables", function (req, res) {
         mysql.query(QUERY_TABLES, function (error, items, fields) {
             if (error) {
                 res.status(503).json({ error });
@@ -40,7 +40,7 @@ function morozov({ trace = false }) {
         })
     });
 
-    return api;
+    return router;
 }
 
 module.exports = morozov;

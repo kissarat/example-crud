@@ -3,14 +3,17 @@ const bodyParser = require("body-parser");
 const morozov = require("./morozov");
 const express = require("express");
 const passport = require("passport");
-const passportRouter = require("./passport");
 const pkg = require("../package");
 const session = require("./session");
 const config = require("../config");
+const controllers = require('./controllers');
 
 function main(options = {}) {
   Object.assign(config, options);
-  config.port = +config.port > 0 ? +config.port : 8080;
+  config.port = +config.port
+  if (!config.port) {
+    config.port = 8080;
+  }
   return new Promise(function (resolve, reject) {
     try {
       const app = express();
@@ -22,7 +25,6 @@ function main(options = {}) {
 
       const api = new express.Router();
 
-      api.use("/auth", passportRouter);
       api.get("/", function (req, res) {
         const p = _.pick(pkg, "name", "version", "description");
         p.ok = true;
@@ -32,6 +34,7 @@ function main(options = {}) {
         api.use(morozov(options));
       }
 
+      api.use(controllers(options));
       app.use("/api", api);
 
       app.use(function (req, res) {
