@@ -82,7 +82,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"empName\": \"Taras\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
+					"raw": "{\n\t\"empName\": \"Some\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
 				},
 				"url": {
 					"raw": "{{origin}}/employee",
@@ -110,16 +110,45 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"empName\": \"Taras\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
+					"raw": "{\n\t\"empName\": \"First\",\n\t\"empActive\": false,\n\t\"emp_dpID\": 1\n}"
 				},
 				"url": {
-					"raw": "{{origin}}/employee/0",
+					"raw": "{{origin}}/employee/2",
 					"host": [
 						"{{origin}}"
 					],
 					"path": [
 						"employee",
-						"0"
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "remove-employees",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "{{origin}}/employee/1",
+					"host": [
+						"{{origin}}"
+					],
+					"path": [
+						"employee",
+						"1"
 					]
 				}
 			},
@@ -150,7 +179,7 @@
 	],
 	"variable": [
 		{
-			"id": "ad7f1c17-1ac9-4b73-80bd-b0f6ba5bd885",
+			"id": "0cce8963-e103-4dda-bc97-6a24f120eb53",
 			"key": "origin",
 			"value": "http://localhost:8080/api",
 			"type": "string"

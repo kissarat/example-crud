@@ -3,6 +3,7 @@ module.exports = {
   // devtools: "eval-source-map",
   entry: __dirname + "/src/main.jsx",
   output: {
+    filename: "app.js",
     path: __dirname + "/public"
   },
 

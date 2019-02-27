@@ -109,4 +109,4 @@ coverage
 # Client
 ############################
 
-client/public/main.js
+client/public/app.js
