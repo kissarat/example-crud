@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { createStore, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
 import { Provider } from "react-redux";
+import reducer from "./reducers.jsx";
 
 const middleware = [];
 if ("production" !== process.env.NODE_ENV) {
@@ -10,6 +11,7 @@ if ("production" !== process.env.NODE_ENV) {
 }
 
 const store = createStore(
+  reducer,
   applyMiddleware(...middleware)
 );
 
