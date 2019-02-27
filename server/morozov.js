@@ -5,11 +5,16 @@ const mysql = require("./mysql");
 
 const QUERY_TABLES = "select * from INFORMATION_SCHEMA.TABLES";
 
-function development() {
+function morozov() {
     const api = new express.Router();
 
-    api.get("/config", function (req, res) {
-        res.json({ ok: true, item: config });
+    api.get("/about", function (req, res) {
+        res.json({
+            ok: true,
+            isAuthenticated: req.isAuthenticated(),
+            user: req.user,
+            config
+        });
     });
 
     api.get("/tables", function (req, res) {
@@ -30,4 +35,4 @@ function development() {
     return api;
 }
 
-module.exports = development;
+module.exports = morozov;
