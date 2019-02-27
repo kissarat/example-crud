@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @author Taras Labiak <taras.labiak@indeema.com>
+# @author Taras Labiak <kissarat@gmail.com>
 
-export PROJECT="passport-example"
+export PROJECT="example-crud"
 ./bin/run bash

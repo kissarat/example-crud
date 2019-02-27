@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @author Taras Labiak <taras.labiak@indeema.com>
+# @author Taras Labiak <kissarat@gmail.com>
 
 MESSAGE=$1
 if [[ -z ${MESSAGE} ]]

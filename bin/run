@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# @author Taras Labiak <taras.labiak@indeema.com>
+# @author Taras Labiak <kissarat@gmail.com>
 
 ROOT=`dirname $0`
 cd ${ROOT}/..
