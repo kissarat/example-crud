@@ -4,6 +4,7 @@ import { createStore, applyMiddleware } from "redux";
 import { createLogger } from "redux-logger";
 import { Provider } from "react-redux";
 import reducer from "./reducers.jsx";
+import App from "./containers/App.jsx";
 
 const middleware = [];
 if ("production" !== process.env.NODE_ENV) {
@@ -15,12 +16,8 @@ const store = createStore(
   applyMiddleware(...middleware)
 );
 
-const Index = () => {
-  return <div>This is company website!</div>;
-};
-
 const app = <Provider store={store}>
-  <Index />
+  <App />
 </Provider>;
 
 ReactDOM.render(app, document.getElementById("app"));
