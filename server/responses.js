@@ -46,14 +46,17 @@ module.exports = {
     }
   },
 
-  modified(r) {
+  modified(res, r) {
     const ok = r.affectedRows > 0;
+    if (!ok) {
+      res.status(404);
+    }
     if (isProduction) {
-      return {ok}
+      res.json({ok})
     }
     else {
       r.ok = ok;
-      return r;
+      res.json(r);
     }
   }
 }

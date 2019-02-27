@@ -1,9 +1,11 @@
 {
   "name": "example-crud",
+  "description": "",
   "private": true,
-  "version": "0.0.2",
+  "version": "0.0.3",
   "main": "server/index.js",
   "scripts": {
+    "development": "NODE_ENV=development forever --minUptime=1000 --spinSleepTime=1000 server/index.js",
     "test": "mocha test/bootstrap.js test/*.test.js --exit"
   },
   "author": "Taras Labiak <kissarat@gmail.com>",
@@ -22,6 +24,7 @@
   "devDependencies": {
     "axios": "^0.18.0",
     "chai": "^4.2.0",
+    "forever": "^0.15.3",
     "mocha": "^6.0.2"
   },
   "repository": {
@@ -39,6 +42,5 @@
   "bugs": {
     "url": "https://github.com/kissarat/example-crud/issues"
   },
-  "homepage": "https://github.com/kissarat/example-crud#readme",
-  "description": ""
+  "homepage": "https://github.com/kissarat/example-crud#readme"
 }

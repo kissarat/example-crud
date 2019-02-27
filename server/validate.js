@@ -62,7 +62,7 @@ const validate = {
     }
   },
 
-  create(values) {
+  edit(values) {
     let error;
     if (error = string(values, "empName")) {
       return error;
