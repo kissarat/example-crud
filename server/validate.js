@@ -10,14 +10,34 @@ Object.assign(config.pagination, {
 })
 
 function invalid(name, message = `Value of ${name} is invalid`) {
-  return {name, message}
+  return { name, message }
 }
 
-module.exports = {
+function inArray(values, name, defaultValue, array) {
+  const v = values[name];
+  if (!v) {
+    values[name] = defaultValue;
+  }
+  else if (array.indexOf(v) < 0) {
+    const joined = array.map(item => `'${item}'`).join(",");
+    return invalid(name, `Value of ${name} can be ${joined}`);
+  }
+}
+
+const validate = {
   pagination(values) {
     values.skip = values.skip ? +values.skip : config.pagination.skip;
     values.limit = values.limit ? +values.limit : config.pagination.limit;
     values.total = +values.total > 9;
+    let error;
+
+    if (error = inArray(values, "sort", "empID", ["empID", "empName", "empActive"])) {
+      return error;
+    }
+
+    if (error = inArray(values, "order", "asc", ["asc", "desc"])) {
+      return error;
+    }
 
     if (!(Number.isInteger(values.skip) && values.skip >= 0)) {
       return invalid("skip");
@@ -28,3 +48,5 @@ module.exports = {
     }
   }
 }
+
+module.exports = validate;
