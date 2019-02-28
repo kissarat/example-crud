@@ -3,6 +3,7 @@ const validate = require("../validate");
 const _ = require("lodash");
 const { check, caught, modified } = require("../responses");
 const query = require("../query");
+const authenticated = require("../authenticated");
 
 const DEPARTMENTS_TABLE_NAME = "tblDepartments";
 const EMPLOYEES_TABLE_NAME = "tblEmployees";
@@ -17,6 +18,7 @@ const EMPLOYEES_PLACEHOLDERS = sortedKeys.tblEmployees.map(() => "?").join(",");
 const queries = {
   select: (fields = "*") => `select ${fields} from ${EMPLOYEES_TABLE_NAME} join ${DEPARTMENTS_TABLE_NAME} on emp_dpID = dpID`,
   sort: ({ sort, order }) => queries.select() + ` order by ${sort} ${order} limit ?, ?`,
+  search: ({ sort, order }) => queries.select() + ` where empName like ? order by ${sort} ${order} limit ?, ?`,
   insert: `insert into ${EMPLOYEES_TABLE_NAME} (${EMPLOYEES_FIELDS}) values (${EMPLOYEES_PLACEHOLDERS})`,
   update: `update ${EMPLOYEES_TABLE_NAME} set ${EMPLOYEES_SET_FIELDS} where empID = ?`,
   delete: `delete from ${EMPLOYEES_TABLE_NAME} where empID = ?`,
@@ -60,10 +62,18 @@ const update = generateEdit(req => query(queries.update, [
 module.exports = function () {
   const router = new express.Router();
 
-  router.get("/", caught(async function (req, res) {
-    const page = _.pick(req.query, "skip", "limit", "total", "sort", "order");
+  router.get("/", authenticated, caught(async function (req, res) {
+    const page = _.pick(req.query, "skip", "limit", "total", "sort", "order", "search");
     if (check(res, validate.find(page))) {
-      const items = await query(queries.sort(page), [page.skip, page.limit]);
+      let items;
+      const params = [page.skip, page.limit];
+      if (page.search) {
+        const search = page.search.split(/\s+/).join("%");
+        items = await query(queries.search(page), [`%${search}%`, ...params]);
+      }
+      else {
+        items = await query(queries.sort(page), params);
+      }
       const r = {
         ok: true,
         page: _.pick(page, "skip", "limit", "sort", "order"),
@@ -77,11 +87,11 @@ module.exports = function () {
     }
   }));
 
-  router.post("/", caught(create));
+  router.post("/", authenticated, caught(create));
 
-  router.put("/:id", validateID, caught(update));
+  router.put("/:id", validateID, authenticated, caught(update));
 
-  router.delete("/:id", validateID, caught(async function (req, res) {
+  router.delete("/:id", validateID, authenticated, caught(async function (req, res) {
     const r = await query(queries.delete, [req.params.id]);
     modified(res, r);
   }));

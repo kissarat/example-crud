@@ -1,13 +1,9 @@
-const config = require("../config");
-
-if (!config.pagination) {
-  config.pagination = {};
+const config = {
+  pagination: {
+    skip: 0,
+    limit: 10
+  }
 }
-
-Object.assign(config.pagination, {
-  skip: 0,
-  limit: 10
-})
 
 function invalid(name, message = `Value of ${name} is invalid`) {
   return { name, message }
@@ -59,6 +55,10 @@ const validate = {
 
     if (!(Number.isInteger(values.limit) && values.limit > 0)) {
       return invalid("limit");
+    }
+
+    if ("string" === typeof values.search && values.search.length > 0) {
+      values.search = values.search.trim();
     }
   },
 
