@@ -66,12 +66,12 @@ module.exports = function () {
       const items = await query(queries.sort(page), [page.skip, page.limit]);
       const r = {
         ok: true,
-        page,
+        page: _.pick(page, "skip", "limit", "sort", "order"),
         items
       };
       if (page.total) {
         const [{ total }] = await query(queries.select("count(*) as total"));
-        r.total = total;
+        r.page.total = total;
       }
       return r;
     }

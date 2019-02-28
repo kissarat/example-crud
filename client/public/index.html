@@ -2,24 +2,35 @@
 <html>
   <head>
     <title>Company</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&amp;subset=cyrillic" rel="stylesheet">
     <style>
       body {
+        font-family: 'Open Sans', sans-serif;
         display: flex;
         justify-content: center;
-        align-items: center;
         min-height: 100vh;
+      }
+
+      .pagination > * {
+        display: inline-block;
+        cursor: pointer;
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+
+      .pagination > *:hover {
+        text-decoration: underline;
       }
 
       form {
         width: 400px;
       }
     </style>
-    <!-- <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script> -->
-    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/npm/vue@2.5.22/dist/vue.js"></script> -->
   </head>
   <body>
-    <div id="app"></div>
+    <div id="app">
+      If you see this text then something wrong is happened
+    </div>
     <script src="/app.js"></script>
   </body>
 </html>
