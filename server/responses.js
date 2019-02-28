@@ -11,16 +11,21 @@ function explain(error) {
   return _.pick(error, explainedFields);
 }
 
+function fail(error) {
+  return {
+    ok: false,
+    error
+  }
+}
+
 module.exports = {
   explain,
+  fail,
 
   check(res, error) {
     if (error) {
       res.status(400)
-        .json({
-          ok: false,
-          error
-        })
+        .json(fail(error))
       return false;
     }
     else {
@@ -38,10 +43,7 @@ module.exports = {
       }
       catch (error) {
         res.status(500)
-          .json({
-            ok: false,
-            error: explain(error)
-          })
+          .json(fail(explain(error)))
       }
     }
   },
@@ -52,7 +54,7 @@ module.exports = {
       res.status(404);
     }
     if (isProduction) {
-      res.json({ok})
+      res.json({ ok })
     }
     else {
       r.ok = ok;

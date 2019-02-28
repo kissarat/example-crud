@@ -2,9 +2,7 @@ const _ = require("lodash");
 const bodyParser = require("body-parser");
 const morozov = require("./morozov");
 const express = require("express");
-const passport = require("passport");
 const pkg = require("../package");
-const session = require("./session");
 const config = require("../config");
 const controllers = require('./controllers');
 
@@ -22,8 +20,6 @@ function main(options = {}) {
 
       app.use(express.static(STATIC_DIR));
       app.use(bodyParser.json());
-      app.use(passport.initialize());
-      app.use(session);
 
       const api = new express.Router();
 

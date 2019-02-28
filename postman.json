@@ -6,6 +6,186 @@
 	},
 	"item": [
 		{
+			"name": "employees",
+			"item": [
+				{
+					"name": "find-employees",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{origin}}/employee",
+							"host": [
+								"{{origin}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create-employees",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"empName\": \"Some\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
+						},
+						"url": {
+							"raw": "{{origin}}/employee",
+							"host": [
+								"{{origin}}"
+							],
+							"path": [
+								"employee"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-employees",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"empName\": \"First\",\n\t\"empActive\": false,\n\t\"emp_dpID\": 1\n}"
+						},
+						"url": {
+							"raw": "{{origin}}/employee/2",
+							"host": [
+								"{{origin}}"
+							],
+							"path": [
+								"employee",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove-employees",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{origin}}/employee/1",
+							"host": [
+								"{{origin}}"
+							],
+							"path": [
+								"employee",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"username\": \"first\",\n\t\"password\": \"Default1!\"\n}\n"
+						},
+						"url": {
+							"raw": "{{origin}}/auth/register",
+							"host": [
+								"{{origin}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "logout",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							},
+							{
+								"key": "authentication",
+								"value": "bar 24d1865bba69d376c1d61a3f8340b25a75be464d39a4dd56b8468ee73a64c1ad5b83f5e1febf6a65980377c27e4189a0",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{origin}}/auth/logout",
+							"host": [
+								"{{origin}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
 			"name": "about",
 			"request": {
 				"method": "GET",
@@ -46,113 +226,6 @@
 				}
 			},
 			"response": []
-		},
-		{
-			"name": "find-employees",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{origin}}/employee",
-					"host": [
-						"{{origin}}"
-					],
-					"path": [
-						"employee"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "create-employees",
-			"request": {
-				"method": "POST",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"value": "application/json",
-						"type": "text"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"empName\": \"Some\",\n\t\"empActive\": true,\n\t\"emp_dpID\": 1\n}"
-				},
-				"url": {
-					"raw": "{{origin}}/employee",
-					"host": [
-						"{{origin}}"
-					],
-					"path": [
-						"employee"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "update-employees",
-			"request": {
-				"method": "PUT",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\"empName\": \"First\",\n\t\"empActive\": false,\n\t\"emp_dpID\": 1\n}"
-				},
-				"url": {
-					"raw": "{{origin}}/employee/2",
-					"host": [
-						"{{origin}}"
-					],
-					"path": [
-						"employee",
-						"2"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "remove-employees",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"name": "Content-Type",
-						"type": "text",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "{{origin}}/employee/1",
-					"host": [
-						"{{origin}}"
-					],
-					"path": [
-						"employee",
-						"1"
-					]
-				}
-			},
-			"response": []
 		}
 	],
 	"event": [
@@ -179,7 +252,7 @@
 	],
 	"variable": [
 		{
-			"id": "0cce8963-e103-4dda-bc97-6a24f120eb53",
+			"id": "49c5ad38-f3be-4057-8b1c-659f3de12bb5",
 			"key": "origin",
 			"value": "http://localhost:8080/api",
 			"type": "string"

@@ -1,7 +1,7 @@
 const express = require("express");
 
 module.exports = function(options) {
-  const controllersName = ["employee"];
+  const controllersName = ["auth", "employee"];
   const router = new express.Router();
   for (const controllerName of controllersName) {
     const postfix = "/" + controllerName;

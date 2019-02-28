@@ -34,7 +34,7 @@ function morozov({ trace = false }) {
                 res.json({
                     ok: true,
                     fields,
-                    items: items.filter(item => "information_schema" !== item.TABLE_SCHEMA)
+                    items: items.filter(item => config.mysql.database === item.TABLE_SCHEMA)
                 })
             }
         })

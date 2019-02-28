@@ -3,6 +3,20 @@ create database company charset 'utf8';
 grant all privileges on company.* to company;
 use company;
 
+create table tblUsers (
+    usrID int auto_increment primary key,
+    usrName varchar(128) not null,
+    usrPassword varchar(128) not null
+) engine=INNODB;
+
+create table tblToken (
+    tknID char(96) not null primary key,
+    tkn_usrID int not null,
+    foreign key (tkn_usrID) references tblUsers(usrID)
+        on update cascade
+        on delete cascade
+) engine=INNODB;
+
 create table tblDepartments (
     dpID int auto_increment primary key,
     dpName tinytext not null

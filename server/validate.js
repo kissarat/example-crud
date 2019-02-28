@@ -75,6 +75,16 @@ const validate = {
     if (!(Number.isInteger(values.emp_dpID) && values.emp_dpID >= 0)) {
       return invalid("emp_dpID");
     }
+  },
+
+  authentication(values) {
+    let error;
+    if (error = string(values, "username")) {
+      return error;
+    }
+    if (error = string(values, "password")) {
+      return error;
+    }
   }
 }
 
