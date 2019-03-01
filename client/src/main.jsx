@@ -6,6 +6,7 @@ import { createLogger } from "redux-logger";
 import { Provider } from "react-redux";
 import reducer from "./reducers.jsx";
 import App from "./containers/App.jsx";
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 const middleware = [];
 if ("production" !== process.env.NODE_ENV) {
@@ -18,7 +19,9 @@ const store = createStore(
 );
 
 const app = <Provider store={store}>
-  <App />
+  <Router>
+    <Route path="/" component={App}/>
+  </Router>
 </Provider>;
 
 ReactDOM.render(app, document.getElementById("app"));

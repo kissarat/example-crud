@@ -5,8 +5,9 @@ const express = require("express");
 const pkg = require("../package");
 const config = require("../config");
 const controllers = require('./controllers');
+const path = require("path");
 
-const STATIC_DIR = __dirname + "/../client/public";
+const STATIC_DIR = path.resolve(__dirname + "/../client/public");
 
 function main(options = {}) {
   Object.assign(config, options);
@@ -18,7 +19,6 @@ function main(options = {}) {
     try {
       const app = express();
 
-      app.use(express.static(STATIC_DIR));
       app.use(bodyParser.json());
 
       const api = new express.Router();
@@ -34,6 +34,19 @@ function main(options = {}) {
 
       api.use(controllers(options));
       app.use("/api", api);
+      app.use(function(req, res, next) {
+        if (/^\/\w+$/.test(req.url)) {
+          res.sendFile(STATIC_DIR + "/index.html", {
+            headers: {
+              "content-type": "text/html"
+            }
+          })
+        }
+        else {
+          next();
+        }
+      });
+      app.use(express.static(STATIC_DIR));
 
       app.use(function (req, res) {
         res.status(404);
