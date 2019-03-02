@@ -56,22 +56,24 @@ class Employees extends Component {
   }
 
   render() {
-    return <div>
-      {this._pagination()}
-      <table>
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Active</th>
-            <th>Department</th>
-          </tr>
-        </thead>
-        <tbody>
-          {this._rows()}
-        </tbody>
-      </table>
-    </div>
+    return (
+      <div>
+        {this._pagination()}
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Name</th>
+              <th>Active</th>
+              <th>Department</th>
+            </tr>
+          </thead>
+          <tbody>
+            {this._rows()}
+          </tbody>
+        </table>
+      </div>
+    )
   }
 }
 
