@@ -3,23 +3,38 @@ import { connect } from "react-redux";
 import { fetchEmployees, CHANGE_EMPLOYEE_LIMIT } from "../actions.jsx";
 import axios from "../axios.jsx";
 
-const PAGE_SIZES = [5, 10, 20, 50, 100, 200, 500];
+const DEFAULT_PAGE_SIZE = 10;
+const PAGE_SIZES = [5, DEFAULT_PAGE_SIZE, 20, 50, 100, 200, 500];
 const UNSORTED = "&#11021;";
 const ASC = "&#9650;";
 const DESC = "&#9660;";
 
 class Employees extends Component {
-  componentDidMount() {
-    fetchEmployees(this.props.dispatch, this.props.page);
+  constructor(...args) {
+    super(...args);
+    this.fetchEmployees = (...args) =>
+      fetchEmployees(this.props.dispatch, ...args);
   }
 
+  componentDidMount() {
+    this.fetchEmployees(this.props.page);
+  }
+
+  /**
+   * Changing state for page
+   * @param {object} page
+   */
   go(page) {
-    fetchEmployees(this.props.dispatch, {
+    this.fetchEmployees({
       ...this.props.page,
       ...page
     });
   }
 
+  /**
+   * Next or previous page changing
+   * @param {int} page
+   */
   relativePage(page) {
     const { skip, limit } = this.props.page;
     return this.go({
@@ -27,19 +42,30 @@ class Employees extends Component {
     });
   }
 
+  /**
+   * Change page
+   * @param {int} page
+   */
   changePage(page) {
     return this.go({
       skip: (page - 1) * this.props.page.limit
     });
   }
 
+  /**
+   * Employee remove
+   * @param {int} id
+   */
   async remove(id) {
     const { data } = await axios.delete("/employee/" + id);
     if (data.ok) {
-      return fetchEmployees(this.props.dispatch);
+      return this.fetchEmployees();
     }
   }
 
+  /**
+   * Menu for page choosing
+   */
   _pagination() {
     const { limit, total, skip } = this.props.page;
     const get = s => Math.max(1, Math.ceil(s / limit));
@@ -70,6 +96,65 @@ class Employees extends Component {
     );
   }
 
+  /**
+   * Size of page
+   */
+  _limit() {
+    const items = PAGE_SIZES.map(limit => (
+      <option
+        key={limit}
+        value={limit}
+        selected={this.props.page.limit === limit}
+      >
+        {limit}
+      </option>
+    ));
+    return (
+      <select
+        onChange={e =>
+          this.fetchEmployees({
+            ...this.props.page,
+            limit: +e.target.value || DEFAULT_PAGE_SIZE
+          })
+        }
+      >
+        {items}
+      </select>
+    );
+  }
+
+  _search() {
+    return (
+      <input
+        type="search"
+        placeholder="Search..."
+        onChange={e =>
+          this.fetchEmployees({
+            ...this.props.page,
+            search: e.target.value
+          })
+        }
+      />
+    );
+  }
+
+  _headers() {
+    return (
+      <tr>
+        <th />
+        <th />
+        <th>ID</th>
+        <th>Name</th>
+        <th>Active</th>
+        <th>Department</th>
+        <th />
+      </tr>
+    );
+  }
+
+  /**
+   * Renders rows of table
+   */
   _rows() {
     return this.props.items.map(item => (
       <tr key={item.empID}>
@@ -84,52 +169,17 @@ class Employees extends Component {
     ));
   }
 
-  _limit() {
-    const items = PAGE_SIZES.map(limit => (
-      <option
-        key={limit}
-        value={limit}
-        selected={this.props.page.limit === limit}
-      >
-        {limit}
-      </option>
-    ));
-    return <select onChange={e =>
-      fetchEmployees(this.props.dispatch, {
-        ...this.props.page,
-        limit: +e.target.value
-      })
-    }>{items}</select>;
-  }
-
   render() {
     return (
       <div>
-        <input
-          type="search"
-          placeholder="Search..."
-          onChange={e =>
-            fetchEmployees(this.props.dispatch, {
-              ...this.props.page,
-              search: e.target.value
-            })
-          }
-        />
+        {this._search()}
         <span>
-        {this._limit()}
-        &nbsp;items per page
+          {this._limit()}
+          &nbsp;items per page
         </span>
         {this._pagination()}
         <table>
-          <thead>
-            <tr>
-              <th>ID</th>
-              <th>Name</th>
-              <th>Active</th>
-              <th>Department</th>
-              <th />
-            </tr>
-          </thead>
+          <thead>{this._headers()}</thead>
           <tbody>{this._rows()}</tbody>
         </table>
       </div>
