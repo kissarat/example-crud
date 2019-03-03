@@ -85,15 +85,17 @@ module.exports = function() {
       );
       if (check(res, validate.find(page))) {
         let items;
-        const params = [page.skip, page.limit];
         let search;
         let where = "";
         if (page.search) {
-          search = "%" + page.search.split(/\s+/).join("%") + "%";
+          search = "%" + page.search.trim().split(/\s+/).join("%") + "%";
           where = SEARCH_WHERE;
-          params.unshift(search);
         }
-        items = await query(queries.sort(page, "*", where), params);
+        const params = search ? [search] : [];
+        items = await query(
+          queries.sort(page, "*", where),
+          params.concat([page.skip, page.limit])
+        );
         const r = {
           ok: true,
           page: _.pick(page, "skip", "limit", "sort", "order"),
@@ -101,7 +103,8 @@ module.exports = function() {
         };
         if (page.total) {
           const [{ total }] = await query(
-            queries.select("count(*) as total", where), search ? [search] : []
+            queries.select("count(*) as total", where),
+            params
           );
           r.page.total = total;
         }
