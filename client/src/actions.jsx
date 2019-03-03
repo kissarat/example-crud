@@ -24,10 +24,15 @@ export const SUBMIT_EMPLOYEE = "SUBMIT_EMPLOYEE";
 // export const requestEmployees = employeeAction(REQUEST_EMPLOYEES);
 // export const receiveEmployees = employeeAction(RECEIVE_EMPLOYEES);
 
-export const fetchEmployees = async (
-  dispatch,
-  page = { skip: 0, limit: 10, search: "" }
-) => {
+const createPage = (sort = "empID", order = "asc") => ({
+  skip: 0,
+  limit: 10,
+  search: "",
+  sort,
+  order
+});
+
+export const fetchEmployees = async (dispatch, page = createPage()) => {
   dispatch({ type: REQUEST_EMPLOYEES });
   const { data } = await axios.get(
     "/employee?" +

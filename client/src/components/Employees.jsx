@@ -3,6 +3,11 @@ import { connect } from "react-redux";
 import { fetchEmployees, CHANGE_EMPLOYEE_LIMIT } from "../actions.jsx";
 import axios from "../axios.jsx";
 
+const PAGE_SIZES = [5, 10, 20, 50, 100, 200, 500];
+const UNSORTED = "&#11021;";
+const ASC = "&#9650;";
+const DESC = "&#9660;";
+
 class Employees extends Component {
   componentDidMount() {
     fetchEmployees(this.props.dispatch, this.props.page);
@@ -80,7 +85,7 @@ class Employees extends Component {
   }
 
   _limit() {
-    const items = [5, 10, 20, 50, 100].map(limit => (
+    const items = PAGE_SIZES.map(limit => (
       <option
         key={limit}
         value={limit}
@@ -110,7 +115,10 @@ class Employees extends Component {
             })
           }
         />
+        <span>
         {this._limit()}
+        &nbsp;items per page
+        </span>
         {this._pagination()}
         <table>
           <thead>
