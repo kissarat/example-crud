@@ -21,20 +21,20 @@ export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 export const fetchEmployees = async (
   dispatch,
-  page = { skip: 0, limit: 10 }
+  page = { skip: 0, limit: 10, search: '' }
 ) => {
   dispatch({ type: REQUEST_EMPLOYEES });
   const { data } = await axios.get(
     "/employee?" +
       querystring.stringify({
-        ..._.pick(page, "skip", "limit"),
+        ..._.pick(page, "skip", "limit", "search"),
         total: 1
       })
   );
   if (data.ok) {
     dispatch({
       type: RECEIVE_EMPLOYEES,
-      page: _.pick(data.page, "skip", "limit", "total"),
+      page: _.pick(data.page, "skip", "limit", "total", "search"),
       items: data.items
     });
   }

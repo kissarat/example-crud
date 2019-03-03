@@ -29,7 +29,7 @@ class Employees extends Component {
   }
 
   async remove(id) {
-    const {data} = await axios.delete("/employee/" + id);
+    const { data } = await axios.delete("/employee/" + id);
     if (data.ok) {
       return fetchEmployees(this.props.dispatch);
     }
@@ -37,7 +37,7 @@ class Employees extends Component {
 
   _pagination() {
     const { limit, total, skip } = this.props.page;
-    const get = s => Math.max(1, Math.ceil(s / limit))
+    const get = s => Math.max(1, Math.ceil(s / limit));
     const last = get(total);
     const numbers = [];
     for (let i = 0; i < last; i++) {
@@ -47,9 +47,11 @@ class Employees extends Component {
     const pages =
       total > 0
         ? numbers.map(page => (
-            <span key={page}
-            onClick={() => this.changePage(page)}
-            className={current === page ? "active" : ""}>
+            <span
+              key={page}
+              onClick={() => this.changePage(page)}
+              className={current === page ? "active" : ""}
+            >
               {page}
             </span>
           ))
@@ -70,7 +72,9 @@ class Employees extends Component {
         <td>{item.empName}</td>
         <td>{item.empActive ? "Yes" : "No"}</td>
         <td>{item.dpName}</td>
-        <td className="action" onClick={() => this.remove(item.empID)}>Delete</td>
+        <td className="action" onClick={() => this.remove(item.empID)}>
+          Delete
+        </td>
       </tr>
     ));
   }
@@ -78,6 +82,16 @@ class Employees extends Component {
   render() {
     return (
       <div>
+        <input
+          type="search"
+          placeholder="Search..."
+          onChange={e =>
+            fetchEmployees(this.props.dispatch, {
+              ...this.props.page,
+              search: e.target.value
+            })
+          }
+        />
         {this._pagination()}
         <table>
           <thead>
@@ -86,7 +100,7 @@ class Employees extends Component {
               <th>Name</th>
               <th>Active</th>
               <th>Department</th>
-              <th></th>
+              <th />
             </tr>
           </thead>
           <tbody>{this._rows()}</tbody>

@@ -11,7 +11,8 @@ import {
 const employeesInitial = {
   page: {
     skip: 0,
-    limit: 10
+    limit: 10,
+    search: ""
   },
   items: [],
   busy: false
@@ -19,17 +20,17 @@ const employeesInitial = {
 
 function employees(state = employeesInitial, action) {
   switch (action.type) {
-    case RECEIVE_EMPLOYEES:
-      return {
-        ...state,
-        items: action.items,
-        page: action.page,
-        busy: false
-      };
     case REQUEST_EMPLOYEES:
       return {
         ...state,
         busy: true
+      };
+    case RECEIVE_EMPLOYEES:
+      return {
+        ...state,
+        page: action.page,
+        items: action.items,
+        busy: false
       };
     default:
       return state;
@@ -58,7 +59,7 @@ function auth(state = authInitial, action) {
         errors: {
           ...state.errors,
           [action.error.name || "summary"]: action.error.message
-        },
+        }
       };
     case SUBMIT_AUTH:
       return {
