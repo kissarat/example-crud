@@ -1,58 +1,69 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-import { identity } from "lodash";
+import { connect } from "react-redux";
 import { fetchEmployees } from "../actions.jsx";
-
-function* getPages(limit, total) {
-  const last = Math.ceil(total / limit);
-  for (let i = 0; i < last; i++) {
-    yield i + 1;
-  }
-}
 
 class Employees extends Component {
   componentDidMount() {
-    fetchEmployees(this.props.dispatch, this.props.employees.page);
+    fetchEmployees(this.props.dispatch, this.props.page);
   }
 
   go(page) {
     fetchEmployees(this.props.dispatch, {
-      ...this.props.employees.page,
+      ...this.props.page,
       ...page
-    })
+    });
   }
 
   relativePage(page) {
-    const { skip, limit } = this.props.employees.page;
+    const { skip, limit } = this.props.page;
     return this.go({
       skip: skip + (page > 0 ? 1 : -1) * limit
-    })
+    });
   }
 
   changePage(page) {
     return this.go({
-      skip: (page - 1) * this.props.employees.page.limit
-    })
+      skip: (page - 1) * this.props.page.limit
+    });
   }
 
   _pagination() {
-    const { limit, total } = this.props.employees.page;
-    const pages = total > 0 ? Array.from(getPages(limit, total))
-      .map(page => <span key={page} onClick={() => this.changePage(page)}>{page}</span>) : [];
-    return <div className="pagination">
-      <span onClick={() => this.relativePage(-1)}>&lt;</span>
-      {pages}
-      <span onClick={() => this.relativePage(1)}>&gt;</span>
-    </div>;
+    const { limit, total, skip } = this.props.page;
+    const get = s => Math.max(1, Math.ceil(s / limit))
+    const last = get(total);
+    const numbers = [];
+    for (let i = 0; i < last; i++) {
+      numbers.push(i + 1);
+    }
+    const current = get(skip + limit);
+    const pages =
+      total > 0
+        ? numbers.map(page => (
+            <span key={page}
+            onClick={() => this.changePage(page)}
+            className={current === page ? "active" : ""}>
+              {page}
+            </span>
+          ))
+        : [];
+    return (
+      <div className={"pagination " + (this.props.busy ? "busy" : "")}>
+        <span onClick={() => this.relativePage(-1)}>&lt;</span>
+        {pages}
+        <span onClick={() => this.relativePage(1)}>&gt;</span>
+      </div>
+    );
   }
 
   _rows() {
-    return this.props.employees.items.map(item => <tr key={item.empID}>
-      <td>{item.empID}</td>
-      <td>{item.empName}</td>
-      <td>{item.empActive ? "Yes" : "No"}</td>
-      <td>{item.dpName}</td>
-    </tr>);
+    return this.props.items.map(item => (
+      <tr key={item.empID}>
+        <td>{item.empID}</td>
+        <td>{item.empName}</td>
+        <td>{item.empActive ? "Yes" : "No"}</td>
+        <td>{item.dpName}</td>
+      </tr>
+    ));
   }
 
   render() {
@@ -68,13 +79,11 @@ class Employees extends Component {
               <th>Department</th>
             </tr>
           </thead>
-          <tbody>
-            {this._rows()}
-          </tbody>
+          <tbody>{this._rows()}</tbody>
         </table>
       </div>
-    )
+    );
   }
 }
 
-export default connect(identity)(Employees);
+export default connect(o => o.employees)(Employees);

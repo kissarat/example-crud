@@ -1,20 +1,23 @@
-import { combineReducers } from 'redux';
-import { REQUEST_EMPLOYEES, RECEIVE_EMPLOYEES, CHANGE, SUBMIT, INVALID } from "./actions.jsx";
+import { combineReducers } from "redux";
+import {
+  REQUEST_EMPLOYEES,
+  RECEIVE_EMPLOYEES,
+  CHANGE,
+  SUBMIT,
+  INVALID,
+  CHANGE_AUTH_MODE
+} from "./actions.jsx";
 
-const employeesInitialState = {
+const employeesInitial = {
   page: {
     skip: 0,
     limit: 10
   },
-  items: []
-}
+  items: [],
+  busy: false
+};
 
-const createForm = values => ({
-  errors: {},
-  values
-})
-
-function employees(state = employeesInitialState, action) {
+function employees(state = employeesInitial, action) {
   switch (action.type) {
     case RECEIVE_EMPLOYEES:
       return {
@@ -27,17 +30,23 @@ function employees(state = employeesInitialState, action) {
       return {
         ...state,
         busy: true
-      }
+      };
     default:
       return state;
   }
 }
 
-function auth(state = createForm({ username: '', password: '' }), action) {
+const authInitial = {
+  values: { username: "", password: "" },
+  errors: {},
+  isSignup: false
+};
+
+function auth(state = authInitial, action) {
   switch (action.type) {
     case CHANGE:
       return {
-        errors: state.errors,
+        ...state,
         values: {
           ...state.values,
           [action.name]: action.value
@@ -45,17 +54,22 @@ function auth(state = createForm({ username: '', password: '' }), action) {
       };
     case INVALID:
       return {
+        ...state,
         errors: {
           ...state.errors,
-          [action.error.name]: action.error.message
+          [action.error.name || "summary"]: action.error.message
         },
-        values: state.values
       };
     case SUBMIT:
       return {
-        errors: {},
-        values: state.values
-      }
+        ...state,
+        errors: {}
+      };
+    case CHANGE_AUTH_MODE:
+      return {
+        ...state,
+        isSignup: action.value
+      };
     default:
       return state;
   }

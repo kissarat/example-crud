@@ -16,7 +16,15 @@
         font-size: 0.8em;
       }
 
-      .pagination > * {
+      .pagination.busy > span {
+        visibility: hidden;
+      }
+
+      .pagination.busy::before {
+        content: "Loading..."
+      }
+
+      .pagination > span {
         display: inline-block;
         cursor: pointer;
         margin-left: 2px;
@@ -24,6 +32,10 @@
       }
 
       .pagination > *:hover {
+        text-decoration: underline;
+      }
+
+      .pagination > .active {
         text-decoration: underline;
       }
 

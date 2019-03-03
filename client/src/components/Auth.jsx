@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { connect } from 'react-redux';
-// import { identity } from "lodash";
+import { connect } from "react-redux";
 import Field from "./Field.jsx";
-import { CHANGE, submitAuth } from "../actions.jsx";
+import { CHANGE, CHANGE_AUTH_MODE, submitAuth } from "../actions.jsx";
 
 class Auth extends Component {
   change(e) {
@@ -10,29 +9,54 @@ class Auth extends Component {
       type: CHANGE,
       name: e.target.getAttribute("name"),
       value: e.target.value
-    })
+    });
   }
 
   render() {
-    const {values, errors} = this.props;
+    const { values, errors, isSignup = false } = this.props;
     return (
       <form>
+        {errors.summary ? <div className="error">{errors.summary}</div> : null}
         <Field error={errors.username}>
-          <input name="username"
+          <input
+            name="username"
             placeholder="Username"
             value={values.username}
-            onChange={e => this.change(e)} />
+            onChange={e => this.change(e)}
+          />
         </Field>
         <Field error={errors.password}>
-          <input name="password"
+          <input
+            name="password"
             placeholder="Password"
             type="password"
             value={values.password}
-            onChange={e => this.change(e)} />
+            onChange={e => this.change(e)}
+          />
         </Field>
-        <button type="button" onClick={() => submitAuth(this.props.dispatch, values)}>Submit</button>
+        <label>
+          <input
+            type="checkbox"
+            checked={isSignup}
+            onChange={e =>
+              this.props.dispatch({
+                type: CHANGE_AUTH_MODE,
+                value: e.target.checked
+              })
+            }
+          />
+          register
+        </label>
+        <div className="controls">
+          <button
+            type="button"
+            onClick={() => submitAuth(this.props.dispatch, this.props)}
+          >
+            {isSignup ? "Signup" : "Login"}
+          </button>
+        </div>
       </form>
-    )
+    );
   }
 }
 

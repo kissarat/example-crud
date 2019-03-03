@@ -2,7 +2,7 @@
   "name": "example-crud",
   "description": "",
   "private": true,
-  "version": "0.0.3",
+  "version": "0.0.4",
   "main": "server/index.js",
   "keywords": [
     "crud",
@@ -19,12 +19,13 @@
   "scripts": {
     "development": "NODE_ENV=development forever --minUptime=1000 --spinSleepTime=1000 server/index.js",
     "test": "mocha test/bootstrap.js test/*.test.js --exit",
-    "build-client": "webpack --config client/webpack.config.js"
+    "build-client": "webpack --config client/webpack.config.js",
+    "watch-build-client": "webpack -w --config client/webpack.config.js"
   },
   "author": "Taras Labiak <kissarat@gmail.com>",
   "license": "AGPL-3.0",
   "dependencies": {
-    "auxiliary": "0.0.16",
+    "auxiliary": "0.0.17",
     "axios": "^0.18.0",
     "babel-polyfill": "^6.26.0",
     "body-parser": "^1.18.3",
