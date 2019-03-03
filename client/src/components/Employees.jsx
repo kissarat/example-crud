@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchEmployees } from "../actions.jsx";
+import axios from "../axios.jsx";
 
 class Employees extends Component {
   componentDidMount() {
@@ -25,6 +26,13 @@ class Employees extends Component {
     return this.go({
       skip: (page - 1) * this.props.page.limit
     });
+  }
+
+  async remove(id) {
+    const {data} = await axios.delete("/employee/" + id);
+    if (data.ok) {
+      return fetchEmployees(this.props.dispatch);
+    }
   }
 
   _pagination() {
@@ -62,6 +70,7 @@ class Employees extends Component {
         <td>{item.empName}</td>
         <td>{item.empActive ? "Yes" : "No"}</td>
         <td>{item.dpName}</td>
+        <td className="action" onClick={() => this.remove(item.empID)}>Delete</td>
       </tr>
     ));
   }
@@ -77,6 +86,7 @@ class Employees extends Component {
               <th>Name</th>
               <th>Active</th>
               <th>Department</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>{this._rows()}</tbody>

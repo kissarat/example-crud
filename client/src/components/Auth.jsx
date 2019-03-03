@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Field from "./Field.jsx";
-import { CHANGE, CHANGE_AUTH_MODE, submitAuth } from "../actions.jsx";
+import { CHANGE_CREDENTIAL, CHANGE_AUTH_MODE, submitAuth } from "../actions.jsx";
 
 class Auth extends Component {
   change(e) {
     return this.props.dispatch({
-      type: CHANGE,
+      type: CHANGE_CREDENTIAL,
       name: e.target.getAttribute("name"),
       value: e.target.value
     });

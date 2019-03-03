@@ -2,9 +2,9 @@ import { combineReducers } from "redux";
 import {
   REQUEST_EMPLOYEES,
   RECEIVE_EMPLOYEES,
-  CHANGE,
-  SUBMIT,
-  INVALID,
+  CHANGE_CREDENTIAL,
+  SUBMIT_AUTH,
+  INVALID_CREDENTIAL,
   CHANGE_AUTH_MODE
 } from "./actions.jsx";
 
@@ -44,7 +44,7 @@ const authInitial = {
 
 function auth(state = authInitial, action) {
   switch (action.type) {
-    case CHANGE:
+    case CHANGE_CREDENTIAL:
       return {
         ...state,
         values: {
@@ -52,7 +52,7 @@ function auth(state = authInitial, action) {
           [action.name]: action.value
         }
       };
-    case INVALID:
+    case INVALID_CREDENTIAL:
       return {
         ...state,
         errors: {
@@ -60,7 +60,7 @@ function auth(state = authInitial, action) {
           [action.error.name || "summary"]: action.error.message
         },
       };
-    case SUBMIT:
+    case SUBMIT_AUTH:
       return {
         ...state,
         errors: {}

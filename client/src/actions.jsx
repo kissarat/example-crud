@@ -5,10 +5,11 @@ import querystring from "auxiliary/querystring";
 
 export const REQUEST_EMPLOYEES = "REQUEST_EMPLOYEES";
 export const RECEIVE_EMPLOYEES = "RECEIVE_EMPLOYEES";
-export const CHANGE = "CHANGE";
+export const CHANGE_CREDENTIAL = "CHANGE_CREDENTIAL";
 export const CHANGE_AUTH_MODE = "CHANGE_AUTH_MODE";
-export const INVALID = "INVALID";
-export const SUBMIT = "SUBMIT";
+export const INVALID_CREDENTIAL = "INVALID_CREDENTIAL";
+export const SUBMIT_AUTH = "SUBMIT_AUTH";
+export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 // const action = name => type => item => ({
 //   type,
@@ -43,13 +44,13 @@ export const submitAuth = async (dispatch, { values, history, isSignup }) => {
   const error = validate.authentication(values);
   const invalid = error =>
     dispatch({
-      type: INVALID,
+      type: INVALID_CREDENTIAL,
       error
     });
   if (error) {
     invalid(error);
   } else {
-    dispatch({ type: SUBMIT });
+    dispatch({ type: SUBMIT_CREDENTIAL });
     const { data } = await axios.post(
       "/auth/" + (isSignup ? "register" : "login"),
       values
