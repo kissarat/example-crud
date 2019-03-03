@@ -100,13 +100,9 @@ class Employees extends Component {
    * Size of page
    */
   _limit() {
-    const items = PAGE_SIZES.map(limit => (
-      <option
-        key={limit}
-        value={limit}
-        selected={this.props.page.limit === limit}
-      >
-        {limit}
+    const items = PAGE_SIZES.map(size => (
+      <option key={size} value={size} selected={this.props.page.limit === size}>
+        {size}
       </option>
     ));
     return (
