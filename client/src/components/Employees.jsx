@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchEmployees } from "../actions.jsx";
+import { fetchEmployees, CHANGE_EMPLOYEE_LIMIT } from "../actions.jsx";
 import axios from "../axios.jsx";
 
 class Employees extends Component {
@@ -79,6 +79,24 @@ class Employees extends Component {
     ));
   }
 
+  _limit() {
+    const items = [5, 10, 20, 50, 100].map(limit => (
+      <option
+        key={limit}
+        value={limit}
+        selected={this.props.page.limit === limit}
+      >
+        {limit}
+      </option>
+    ));
+    return <select onChange={e =>
+      fetchEmployees(this.props.dispatch, {
+        ...this.props.page,
+        limit: +e.target.value
+      })
+    }>{items}</select>;
+  }
+
   render() {
     return (
       <div>
@@ -92,6 +110,7 @@ class Employees extends Component {
             })
           }
         />
+        {this._limit()}
         {this._pagination()}
         <table>
           <thead>

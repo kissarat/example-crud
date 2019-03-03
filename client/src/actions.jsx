@@ -1,15 +1,20 @@
-import axios from "./axios.jsx";
 import _ from "lodash";
-import validate from "../../server/validate";
+import axios from "./axios.jsx";
 import querystring from "auxiliary/querystring";
+import validate from "../../server/validate";
 
-export const REQUEST_EMPLOYEES = "REQUEST_EMPLOYEES";
-export const RECEIVE_EMPLOYEES = "RECEIVE_EMPLOYEES";
-export const CHANGE_CREDENTIAL = "CHANGE_CREDENTIAL";
 export const CHANGE_AUTH_MODE = "CHANGE_AUTH_MODE";
-export const INVALID_CREDENTIAL = "INVALID_CREDENTIAL";
-export const SUBMIT_AUTH = "SUBMIT_AUTH";
+export const CHANGE_CREDENTIAL = "CHANGE_CREDENTIAL";
+export const CHANGE_EMPLOYEE = "CHANGE_EMPLOYEE";
+export const CHANGE_EMPLOYEE_LIMIT = "CHANGE_EMPLOYEE_LIMIT";
+export const CLEAR_EMPLOYEE = "CLEAR_EMPLOYEE";
 export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
+export const INVALID_CREDENTIAL = "INVALID_CREDENTIAL";
+export const INVALID_EMPLOYEE = "INVALID_EMPLOYEE";
+export const RECEIVE_EMPLOYEES = "RECEIVE_EMPLOYEES";
+export const REQUEST_EMPLOYEES = "REQUEST_EMPLOYEES";
+export const SUBMIT_AUTH = "SUBMIT_AUTH";
+export const SUBMIT_EMPLOYEE = "SUBMIT_EMPLOYEE";
 
 // const action = name => type => item => ({
 //   type,
@@ -21,7 +26,7 @@ export const DELETE_EMPLOYEE = "DELETE_EMPLOYEE";
 
 export const fetchEmployees = async (
   dispatch,
-  page = { skip: 0, limit: 10, search: '' }
+  page = { skip: 0, limit: 10, search: "" }
 ) => {
   dispatch({ type: REQUEST_EMPLOYEES });
   const { data } = await axios.get(
