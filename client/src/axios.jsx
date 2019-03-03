@@ -5,6 +5,15 @@ const axios = Axios.create({
   validateStatus: s => 200 <= s && s < 500
 });
 
+axios.interceptors.response.use(function(r) {
+  if (401 === r.status) {
+    location.pathname = '/auth'
+  }
+  else {
+    return Promise.resolve(r);
+  }
+})
+
 axios.AuthStorageKey = "token";
 
 const token = localStorage.getItem(axios.AuthStorageKey);
