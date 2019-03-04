@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { identity } from "lodash";
 import ViewEmployee from "../components/ViewEmployee.jsx";
 import EditEmployee from "../components/EditEmployee.jsx";
-import Employees from "../components/Employees.jsx";
+import EmployeesList from "../components/EmployeesList.jsx";
 import Auth from "../components/Auth.jsx";
 import React, { Component } from "react";
 
@@ -18,7 +18,7 @@ class App extends Component {
             <Route path="/employee/view/:id" component={ViewEmployee} />
             <Route path="/employee/create" component={EditEmployee} />
             <Route path="/employee/edit/:id" component={EditEmployee} />
-            <Route path="/employees" component={Employees} />
+            <Route path="/employees" component={EmployeesList} />
           </div>
         </div>
       </Router>

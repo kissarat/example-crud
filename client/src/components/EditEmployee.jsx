@@ -1,16 +1,20 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Field from "./Field.jsx";
+import axios from "../axios.jsx";
 import {
   CHANGE_EMPLOYEE,
-  CLEAR_EMPLOYEE,
   fetchSingleEmployee,
   submitEmployee
 } from "../actions.jsx";
 
 class EditEmployee extends Component {
-  componentDidMount() {
+  async componentDidMount() {
     fetchSingleEmployee(this.props.dispatch, this.props.match.params.id);
+    const { data } = await axios.get("/employee/departments");
+    if (data.ok) {
+      this.setState({ departments: data.items });
+    }
   }
 
   componentWillReceiveProps(props) {
@@ -25,6 +29,22 @@ class EditEmployee extends Component {
       name: e.target.getAttribute("name"),
       value
     });
+  }
+
+  _departments() {
+    if (this.state && this.state.departments) {
+      const items = this.state.departments.map(item => (
+        <option key={item.dpID} value={item.dpID}>
+          {item.dpName}
+        </option>
+      ));
+      return (
+        <label className="field">
+          Department:&nbsp;
+          <select value={this.props.values.dpID}>{items}</select>
+        </label>
+      );
+    }
   }
 
   render() {
@@ -42,7 +62,8 @@ class EditEmployee extends Component {
             onChange={e => this.change(e, e.target.value)}
           />
         </Field>
-        <label>
+        {this._departments()}
+        <label className="field">
           <input
             type="checkbox"
             name="empActive"

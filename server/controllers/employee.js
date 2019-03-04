@@ -20,6 +20,7 @@ const EMPLOYEES_PLACEHOLDERS = sortedKeys.tblEmployees.map(() => "?").join(",");
 const SEARCH_WHERE = " where empName like ? ";
 
 const queries = {
+  departments: `select * from ${DEPARTMENTS_TABLE_NAME} order by dpName`,
   one: `select * from ${EMPLOYEES_TABLE_NAME} join ${DEPARTMENTS_TABLE_NAME} on emp_dpID = dpID where empID = ? limit 1`,
   select: (fields = "*", where = "") =>
     `select ${fields} from ${EMPLOYEES_TABLE_NAME} join ${DEPARTMENTS_TABLE_NAME} on emp_dpID = dpID ` +
@@ -72,7 +73,19 @@ module.exports = function() {
   const router = new express.Router();
 
   router.get(
+    "/departments",
+    authenticated,
+    caught(async function() {
+      return {
+        ok: true,
+        items: (departments = await query(queries.departments))
+      };
+    })
+  );
+
+  router.get(
     "/:id",
+    authenticated,
     validateID,
     caught(async function(req, res) {
       const [item] = await query(queries.one, [req.params.id]);

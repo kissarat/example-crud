@@ -98,6 +98,7 @@ function singleEmployee(state = singleEmployeeInitial, action) {
       return {
         ...state,
         values: action.item,
+        departments: action.departments,
         busy: false
       };
     case CHANGE_EMPLOYEE:

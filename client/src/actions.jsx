@@ -60,19 +60,22 @@ export const fetchSingleEmployee = async (dispatch, id) => {
         error: { message }
       });
     dispatch({ type: REQUEST_SINGLE_EMPLOYEE });
-    const { data, status } = await axios.get("/employee/" + id);
+    const { data, status } = await axios.get(`/employee/${id}?departments=1`);
     if (data.ok) {
       if (200 === status) {
-        dispatch({ type: RECEIVE_SINGLE_EMPLOYEE, item: data.item });
+        dispatch({
+          type: RECEIVE_SINGLE_EMPLOYEE,
+          item: data.item,
+          departments: data.departments
+        });
       } else {
         showError(`Employee with id = ${id} not found`);
       }
     } else {
       showError(data.message || "Unknown server error");
     }
-  }
-  else {
-    dispatch({type: CLEAR_EMPLOYEE});
+  } else {
+    dispatch({ type: CLEAR_EMPLOYEE });
   }
 };
 
