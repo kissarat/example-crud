@@ -16,6 +16,7 @@ class Auth extends Component {
     const { values, errors, isSignup = false } = this.props;
     return (
       <form>
+        <h2>Authentication</h2>
         {errors.summary ? <div className="error">{errors.summary}</div> : null}
         <Field error={errors.username}>
           <input

@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { identity } from "lodash";
 import Auth from "../components/Auth.jsx";
@@ -34,6 +34,7 @@ class App extends Component {
             <Route path="/employee/create" component={EditEmployee} />
             <Route path="/employee/edit/:id" component={EditEmployee} />
             <Route path="/employees" component={EmployeesList} />
+            <Route path="/" exact render={() => <Redirect to="/auth"/>} />
           </div>
         </div>
       </Router>

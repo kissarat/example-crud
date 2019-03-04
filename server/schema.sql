@@ -1,8 +1,3 @@
-create user company identified with mysql_native_password by 'company';
-create database company charset 'utf8';
-grant all privileges on company.* to company;
-use company;
-
 create table tblUsers (
     usrID int auto_increment primary key,
     usrName varchar(128) not null,
