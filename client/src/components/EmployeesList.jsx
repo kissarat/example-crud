@@ -6,9 +6,9 @@ import { Link } from "react-router-dom";
 
 const DEFAULT_PAGE_SIZE = 10;
 const PAGE_SIZES = [5, DEFAULT_PAGE_SIZE, 20, 50, 100, 200, 500];
-const UNSORTED = "&#11021;";
-const ASC = "&#9650;";
-const DESC = "&#9660;";
+const UNSORTED = "\u2b0d";
+const ASC = "\u25b2";
+const DESC = "\u25bc";
 
 class Employees extends Component {
   constructor(...args) {
@@ -62,6 +62,19 @@ class Employees extends Component {
     if (data.ok) {
       return this.fetchEmployees();
     }
+  }
+
+  sort(name) {
+    this.fetchEmployees({
+      ...this.props.page,
+      sort: name,
+      order:
+        name === this.props.page.sort
+          ? "asc" === this.props.page.order
+            ? "desc"
+            : "asc"
+          : "asc"
+    });
   }
 
   /**
@@ -136,15 +149,33 @@ class Employees extends Component {
     );
   }
 
+  _order(name) {
+    const char =
+      name === this.props.page.sort
+        ? "asc" === this.props.page.order
+          ? ASC
+          : DESC
+        : UNSORTED;
+    return <span>{char}</span>;
+  }
+
   _headers() {
     return (
       <tr>
         <th />
         <th />
-        <th>ID</th>
-        <th>Name</th>
-        <th>Active</th>
-        <th>Department</th>
+        <th className="sortable" onClick={() => this.sort("empID")}>
+          ID {this._order("empID")}
+        </th>
+        <th className="sortable" onClick={() => this.sort("empName")}>
+          Name {this._order("empName")}
+        </th>
+        <th className="sortable" onClick={() => this.sort("empActive")}>
+          Active {this._order("empActive")}
+        </th>
+        <th className="sortable" onClick={() => this.sort("emp_dpID")}>
+          Department {this._order("emp_dpID")}
+        </th>
         <th />
       </tr>
     );

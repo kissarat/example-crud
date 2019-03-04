@@ -15,12 +15,17 @@ axios.interceptors.response.use(function(r) {
 
 axios.AuthStorageKey = "token";
 
+// LocalStorage is not safe way to store security tokens but for simplicity I use it
 Object.defineProperty(axios, "token", {
   get() {
     return localStorage.getItem(axios.AuthStorageKey);
   },
   set(value) {
-    localStorage.setItem(axios.AuthStorageKey, value);
+    if (value) {
+      localStorage.setItem(axios.AuthStorageKey, value);
+    } else {
+      localStorage.removeItem(axios.AuthStorageKey);
+    }
   }
 });
 

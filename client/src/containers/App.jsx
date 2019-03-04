@@ -1,17 +1,20 @@
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import { connect } from "react-redux";
 import { identity } from "lodash";
-import ViewEmployee from "../components/ViewEmployee.jsx";
+import Auth from "../components/Auth.jsx";
+import axios from "../axios.jsx";
 import EditEmployee from "../components/EditEmployee.jsx";
 import EmployeesList from "../components/EmployeesList.jsx";
-import Auth from "../components/Auth.jsx";
 import React, { Component } from "react";
+import ViewEmployee from "../components/ViewEmployee.jsx";
 
 class App extends Component {
   async logout() {
     const { data } = await axios.post("/auth/logout");
     if (data.ok) {
-      this.props.history.push("/login");
+      axios.token = null;
+      // this.props.history.push("/auth");
+      location.href = "/auth";
     } else if (data.error) {
       alert(data.error.message);
     }

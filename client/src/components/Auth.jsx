@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import { CHANGE_CREDENTIAL, CHANGE_AUTH_MODE, submitAuth } from "../actions.jsx";
 import { connect } from "react-redux";
 import Field from "./Field.jsx";
-import { CHANGE_CREDENTIAL, CHANGE_AUTH_MODE, submitAuth } from "../actions.jsx";
+import React, { Component } from "react";
 
 class Auth extends Component {
   change(e) {

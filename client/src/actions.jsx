@@ -46,7 +46,7 @@ export const fetchEmployees = async (dispatch, page = createPage()) => {
   if (data.ok) {
     dispatch({
       type: RECEIVE_EMPLOYEES,
-      page: _.pick(data.page, "skip", "limit", "total", "search"),
+      page: _.pick(data.page, "skip", "limit", "total", "sort", "order", "search"),
       items: data.items
     });
   }
@@ -105,13 +105,13 @@ export const submitAuth = async (dispatch, { values, history, isSignup }) => {
   if (error) {
     return void dispatch({ type: INVALID_CREDENTIAL, error });
   }
-  dispatch({ type: SUBMIT_CREDENTIAL });
+  dispatch({ type: SUBMIT_AUTH });
   const { data } = await axios.post(
     "/auth/" + (isSignup ? "register" : "login"),
     values
   );
   if (data.ok) {
-    localStorage.setItem(axios.AuthStorageKey, data.token);
+    axios.token = data.token;
     axios.defaults.headers.authorization = "Bearer " + data.token;
     fetchEmployees(dispatch);
     history.push("/employees");

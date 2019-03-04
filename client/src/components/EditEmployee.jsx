@@ -30,6 +30,13 @@ class EditEmployee extends Component {
   async loadDepartments() {
     const { data } = await axios.get("/department");
     if (data.ok) {
+      if (!(this.props.values.emp_dpID > 0) && data.items.length > 0) {
+        this.props.dispatch({
+          type: CHANGE_EMPLOYEE,
+          name: "emp_dpID",
+          value: data.items[0].dpID
+        });
+      }
       this.setState({ departments: data.items });
     }
   }

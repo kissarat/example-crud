@@ -1,7 +1,7 @@
-import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchSingleEmployee } from "../actions.jsx";
 import { Link } from "react-router-dom";
+import React, { Component } from "react";
 
 class ViewEmployee extends Component {
   componentDidMount() {

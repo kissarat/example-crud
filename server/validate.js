@@ -41,7 +41,7 @@ const validate = {
     values.total = +values.total > 0;
     let error;
 
-    if (error = inArray(values, "sort", "empID", ["empID", "empName", "empActive"])) {
+    if (error = inArray(values, "sort", "empID", ["empID", "empName", "empActive", "emp_dpID"])) {
       return error;
     }
 
