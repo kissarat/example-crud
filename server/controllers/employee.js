@@ -73,17 +73,6 @@ module.exports = function() {
   const router = new express.Router();
 
   router.get(
-    "/departments",
-    authenticated,
-    caught(async function() {
-      return {
-        ok: true,
-        items: (departments = await query(queries.departments))
-      };
-    })
-  );
-
-  router.get(
     "/:id",
     authenticated,
     validateID,

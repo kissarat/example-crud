@@ -68,6 +68,9 @@ const validate = {
       return error;
     }
 
+    if ("number" === typeof values.empActive) {
+      values.empActive = values.empActive > 0;
+    }
     if ("boolean" !== typeof values.empActive) {
       return invalid("empActive");
     }
@@ -83,6 +86,13 @@ const validate = {
       return error;
     }
     if (error = string(values, "password")) {
+      return error;
+    }
+  },
+
+  department(values) {
+    let error;
+    if (error = string(values, "dpName")) {
       return error;
     }
   }

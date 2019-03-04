@@ -60,7 +60,7 @@ export const fetchSingleEmployee = async (dispatch, id) => {
         error: { message }
       });
     dispatch({ type: REQUEST_SINGLE_EMPLOYEE });
-    const { data, status } = await axios.get(`/employee/${id}?departments=1`);
+    const { data, status } = await axios.get(`/employee/${id}`);
     if (data.ok) {
       if (200 === status) {
         dispatch({
@@ -79,14 +79,15 @@ export const fetchSingleEmployee = async (dispatch, id) => {
   }
 };
 
-export const submitEmployee = async (dispatch, { values, history, params }) => {
+export const submitEmployee = async (dispatch, { values, history, match }) => {
   const error = validate.edit(values);
   if (error) {
     return void dispatch({ type: INVALID_EMPLOYEE, error });
   }
   dispatch({ type: SUBMIT_EMPLOYEE });
-  const { data } = await axios[paras.id ? "put" : "post"](
-    params.id ? "/employee/" + params.id : "/employee",
+  const id = match.params.id;
+  const { data } = await axios[id ? "put" : "post"](
+    id ? "/employee/" + id : "/employee",
     values
   );
   if (data.ok) {

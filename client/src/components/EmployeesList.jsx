@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { fetchEmployees, CHANGE_EMPLOYEE_LIMIT } from "../actions.jsx";
+import { fetchEmployees } from "../actions.jsx";
 import axios from "../axios.jsx";
 import { Link } from "react-router-dom";
 
@@ -175,7 +175,8 @@ class Employees extends Component {
 
   render() {
     return (
-      <div>
+      <div className="employee list">
+        <h2>Employees</h2>
         {this._search()}
         <span>
           {this._limit()}

@@ -53,16 +53,18 @@ module.exports = {
   },
 
   modified(res, r) {
-    const ok = r.affectedRows > 0;
-    if (!ok) {
+    const data = {
+      ok: r.affectedRows > 0
+    }
+    if (r.insertId > 0) {
+      data.id = r.insertId;
+    }
+    if (!data.ok) {
       res.status(404);
     }
-    if (isProduction) {
-      res.json({ ok })
+    if (!isProduction) {
+      Object.assign(data, r);
     }
-    else {
-      r.ok = ok;
-      res.json(r);
-    }
+    res.json(data);
   }
 }
