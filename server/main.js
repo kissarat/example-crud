@@ -35,7 +35,7 @@ function main(options = {}) {
       api.use(controllers(options));
       app.use("/api", api);
       app.use(function(req, res, next) {
-        if (/^\/\w+$/.test(req.url)) {
+        if (/^[\/\w]+$/.test(req.url)) {
           res.sendFile(STATIC_DIR + "/index.html", {
             headers: {
               "content-type": "text/html"

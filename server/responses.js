@@ -8,7 +8,11 @@ if ("production" !== process.env.NODE_ENV) {
 }
 
 function explain(error) {
-  return _.pick(error, explainedFields);
+  error = _.pick(error, explainedFields);
+  if ("string" === typeof error.stack) {
+    error.stack = error.stack.split(/\s*\n\s*/)
+  }
+  return error;
 }
 
 function fail(error) {

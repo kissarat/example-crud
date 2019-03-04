@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { fetchEmployees, CHANGE_EMPLOYEE_LIMIT } from "../actions.jsx";
 import axios from "../axios.jsx";
+import { Link } from "react-router-dom";
 
 const DEFAULT_PAGE_SIZE = 10;
 const PAGE_SIZES = [5, DEFAULT_PAGE_SIZE, 20, 50, 100, 200, 500];
@@ -101,12 +102,13 @@ class Employees extends Component {
    */
   _limit() {
     const items = PAGE_SIZES.map(size => (
-      <option key={size} value={size} selected={this.props.page.limit === size}>
+      <option key={size} value={size}>
         {size}
       </option>
     ));
     return (
       <select
+        value={this.props.page.limit}
         onChange={e =>
           this.fetchEmployees({
             ...this.props.page,
@@ -154,6 +156,12 @@ class Employees extends Component {
   _rows() {
     return this.props.items.map(item => (
       <tr key={item.empID}>
+        <td>
+          <Link to={"/employee/view/" + item.empID}>View</Link>
+        </td>
+        <td>
+          <Link to={"/employee/edit/" + item.empID}>Edit</Link>
+        </td>
         <td>{item.empID}</td>
         <td>{item.empName}</td>
         <td>{item.empActive ? "Yes" : "No"}</td>
@@ -174,6 +182,7 @@ class Employees extends Component {
           &nbsp;items per page
         </span>
         {this._pagination()}
+        <Link to="/employee/create">Create</Link>
         <table>
           <thead>{this._headers()}</thead>
           <tbody>{this._rows()}</tbody>

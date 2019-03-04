@@ -1,12 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import Field from "./Field.jsx";
-import { CHANGE_EMPLOYEE } from "../actions.jsx";
+import {
+  CHANGE_EMPLOYEE,
+  CLEAR_EMPLOYEE,
+  fetchSingleEmployee,
+  submitEmployee
+} from "../actions.jsx";
 
 class EditEmployee extends Component {
-  load(id) {
-    if (id) {
-    } else {
+  componentDidMount() {
+    fetchSingleEmployee(this.props.dispatch, this.props.match.params.id);
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.match.params.id !== this.props.match.params.id) {
+      fetchSingleEmployee(this.props.dispatch, props.match.params.id);
     }
   }
 
@@ -20,13 +29,15 @@ class EditEmployee extends Component {
 
   render() {
     const { values, errors } = this.props;
+    const id = this.props.match.params.id;
     return (
-      <form>
+      <form className="employee edit">
+        <h1>{id ? `Edit Employee #${id}` : "Create Employee"}</h1>
         {errors.summary ? <div className="error">{errors.summary}</div> : null}
         <Field error={errors.empName}>
           <input
-            name="username"
-            placeholder="Username"
+            name="empName"
+            placeholder="Name"
             value={values.empName}
             onChange={e => this.change(e, e.target.value)}
           />
@@ -34,6 +45,7 @@ class EditEmployee extends Component {
         <label>
           <input
             type="checkbox"
+            name="empActive"
             checked={values.empActive}
             onChange={e => this.change(e, e.target.checked)}
           />
@@ -42,9 +54,10 @@ class EditEmployee extends Component {
         <div className="controls">
           <button
             type="button"
-            onClick={() => submitAuth(this.props.dispatch, this.props)}
+            disabled={this.props.busy}
+            onClick={() => submitEmployee(this.props.dispatch, this.props)}
           >
-            Save
+            {id ? "Save" : "Create"}
           </button>
         </div>
       </form>
@@ -52,4 +65,4 @@ class EditEmployee extends Component {
   }
 }
 
-export default connect(s => s.auth)(EditEmployee);
+export default connect(s => s.singleEmployee)(EditEmployee);

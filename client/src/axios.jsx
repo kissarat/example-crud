@@ -2,7 +2,7 @@ import Axios from "axios";
 
 const axios = Axios.create({
   baseURL: "/api",
-  validateStatus: s => 200 <= s && s < 500
+  validateStatus: s => 200 <= s && s < 600
 });
 
 axios.interceptors.response.use(function(r) {

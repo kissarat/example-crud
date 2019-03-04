@@ -5,7 +5,12 @@ import {
   CHANGE_CREDENTIAL,
   SUBMIT_AUTH,
   INVALID_CREDENTIAL,
-  CHANGE_AUTH_MODE
+  CHANGE_AUTH_MODE,
+  RECEIVE_SINGLE_EMPLOYEE,
+  REQUEST_SINGLE_EMPLOYEE,
+  CLEAR_EMPLOYEE,
+  INVALID_EMPLOYEE,
+  CHANGE_EMPLOYEE
 } from "./actions.jsx";
 
 const employeesInitial = {
@@ -76,7 +81,50 @@ function auth(state = authInitial, action) {
   }
 }
 
+const singleEmployeeInitial = {
+  values: { empName: "", empActive: false },
+  errors: {},
+  busy: false
+};
+
+function singleEmployee(state = singleEmployeeInitial, action) {
+  switch (action.type) {
+    case REQUEST_SINGLE_EMPLOYEE:
+      return {
+        ...state,
+        busy: true
+      };
+    case RECEIVE_SINGLE_EMPLOYEE:
+      return {
+        ...state,
+        values: action.item,
+        busy: false
+      };
+    case CHANGE_EMPLOYEE:
+      return {
+        ...state,
+        values: {
+          ...state.values,
+          [action.name]: action.value
+        }
+      };
+    case INVALID_EMPLOYEE:
+      return {
+        ...state,
+        errors: {
+          ...state.errors,
+          [action.error.name || "summary"]: action.error.message
+        }
+      };
+    case CLEAR_EMPLOYEE:
+      return singleEmployeeInitial;
+    default:
+      return state;
+  }
+}
+
 export default combineReducers({
   employees,
-  auth
+  auth,
+  singleEmployee
 });
